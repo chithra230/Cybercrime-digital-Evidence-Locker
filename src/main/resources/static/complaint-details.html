@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Details - Cybercrime Digital Evidence Locker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #06121f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #071a2b;
+            border-bottom: 1px solid #123b52;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            color: #00d9ff;
+            font-size: 21px;
+        }
+
+        .back-btn {
+            background: #0d3045;
+            color: white;
+            border: 1px solid #00bcd4;
+            padding: 9px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #00bcd4;
+            color: #00131f;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: #00d9ff;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #0a1d2d;
+            border: 1px solid #16445c;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-title {
+            color: #00d9ff;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #16445c;
+            padding-bottom: 12px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .detail-box {
+            background: #071725;
+            border: 1px solid #12384d;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            color: #8ca9b8;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .detail-value {
+            color: white;
+            font-size: 15px;
+            word-break: break-word;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #5c4700;
+            color: #ffd54f;
+        }
+
+        .approved {
+            background: #064d2d;
+            color: #4dffad;
+        }
+
+        .rejected {
+            background: #5b1010;
+            color: #ff7777;
+        }
+
+        .evidence-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background: #00bcd4;
+            color: #00131f;
+            border: none;
+            padding: 10px 17px;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .upload-btn:hover {
+            background: #00e5ff;
+        }
+
+        .evidence-card {
+            background: #071725;
+            border: 1px solid #16445c;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .evidence-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .evidence-number {
+            color: #00d9ff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .evidence-item {
+            background: #0a1d2d;
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+        .evidence-item span:first-child {
+            display: block;
+            color: #7895a5;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .evidence-item span:last-child {
+            color: white;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #8ca9b8;
+            border: 1px dashed #31576b;
+            border-radius: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #8ca9b8;
+            padding: 25px;
+        }
+
+        .error {
+            background: #4a1111;
+            border: 1px solid #a52a2a;
+            color: #ff8585;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+            .details-grid,
+            .evidence-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .evidence-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>🔐 Cybercrime Digital Evidence Locker</h2>
+
+        <a href="/my-complaints.html" class="back-btn">
+            ← My Complaints
+        </a>
+    </div>
+
+    <div class="container">
+
+        <h1 class="page-title">Complaint Details</h1>
+
+        <div id="errorBox" class="error"></div>
+
+        <!-- COMPLAINT DETAILS -->
+        <div class="card">
+
+            <div class="card-title">
+                📋 Complaint Information
+            </div>
+
+            <div id="complaintLoading" class="loading">
+                Loading complaint details...
+            </div>
+
+            <div id="complaintDetails"
+                 class="details-grid"
+                 style="display:none;">
+
+                <div class="detail-box">
+                    <div class="detail-label">Complaint ID</div>
+                    <div class="detail-value" id="complaintId">-</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Complaint Type</div>
+                    <div class="detail-value" id="complaintType">-</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Incident Date</div>
+                    <div class="detail-value" id="incidentDate">-</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Incident Location</div>
+                    <div class="detail-value" id="incidentLocation">-</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Subject</div>
+                    <div class="detail-value" id="subject">-</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Financial Loss</div>
+                    <div class="detail-value" id="financialLoss">-</div>
+                </div>
+
+                <div class="detail-box full-width">
+                    <div class="detail-label">Description</div>
+                    <div class="detail-value" id="description">-</div>
+                </div>
+
+                <div class="detail-box full-width">
+                    <div class="detail-label">Suspect Information</div>
+                    <div class="detail-value" id="suspectInformation">-</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value">
+                        <span id="status" class="status">
+                            -
+                        </span>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">Submitted Date</div>
+                    <div class="detail-value" id="createdAt">-</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- EVIDENCE -->
+        <div class="card">
+
+            <div class="evidence-header">
+
+                <div class="card-title" style="margin:0;">
+                    🔎 Uploaded Evidence
+                </div>
+
+                <a id="uploadEvidenceBtn"
+                   class="upload-btn"
+                   href="#">
+                    + Upload Related Evidence
+                </a>
+
+            </div>
+
+            <div id="evidenceLoading" class="loading">
+                Loading evidence...
+            </div>
+
+            <div id="evidenceList"></div>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+    // ==========================================
+    // GET COMPLAINT ID FROM URL
+    // ==========================================
+
+    const urlParams =
+        new URLSearchParams(window.location.search);
+
+    const complaintId =
+        urlParams.get("complaintId");
+
+
+    // ==========================================
+    // ERROR FUNCTION
+    // ==========================================
+
+    function showError(message) {
+
+        const errorBox =
+            document.getElementById("errorBox");
+
+        errorBox.textContent = message;
+        errorBox.style.display = "block";
+    }
+
+
+    // ==========================================
+    // CHECK COMPLAINT ID
+    // ==========================================
+
+    if (!complaintId) {
+
+        document.getElementById("complaintLoading")
+            .style.display = "none";
+
+        document.getElementById("evidenceLoading")
+            .style.display = "none";
+
+        showError(
+            "Complaint ID is missing. Please open the complaint from My Complaints."
+        );
+
+    } else {
+
+        // Upload button
+        document.getElementById("uploadEvidenceBtn").href =
+            "/evidence.html?complaintId=" +
+            encodeURIComponent(complaintId);
+
+
+        // Load complaint
+        loadComplaint();
+
+
+        // Load evidence
+        loadEvidence();
+    }
+
+
+    // ==========================================
+    // LOAD COMPLAINT
+    // ==========================================
+
+    function loadComplaint() {
+
+        fetch(
+            "/api/complaints/" +
+            encodeURIComponent(complaintId)
+        )
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Complaint not found"
+                );
+            }
+
+            return response.json();
+        })
+
+        .then(complaint => {
+
+            document.getElementById("complaintLoading")
+                .style.display = "none";
+
+            document.getElementById("complaintDetails")
+                .style.display = "grid";
+
+
+            document.getElementById("complaintId")
+                .textContent =
+                complaint.complaintId || "-";
+
+
+            document.getElementById("complaintType")
+                .textContent =
+                complaint.complaintType || "-";
+
+
+            document.getElementById("incidentDate")
+                .textContent =
+                complaint.incidentDate || "-";
+
+
+            document.getElementById("incidentLocation")
+                .textContent =
+                complaint.incidentLocation || "-";
+
+
+            document.getElementById("subject")
+                .textContent =
+                complaint.subject || "-";
+
+
+            document.getElementById("financialLoss")
+                .textContent =
+                complaint.financialLoss || "-";
+
+
+            document.getElementById("description")
+                .textContent =
+                complaint.description || "-";
+
+
+            document.getElementById("suspectInformation")
+                .textContent =
+                complaint.suspectInformation || "-";
+
+
+            document.getElementById("createdAt")
+                .textContent =
+                formatDate(complaint.createdAt);
+
+
+            const statusElement =
+                document.getElementById("status");
+
+            const status =
+                complaint.status || "PENDING";
+
+            statusElement.textContent =
+                status;
+
+
+            statusElement.className =
+                "status " +
+                status.toLowerCase();
+
+        })
+
+        .catch(error => {
+
+            document.getElementById("complaintLoading")
+                .style.display = "none";
+
+            showError(
+                "Complaint not found. Please check the Complaint ID."
+            );
+        });
+    }
+
+
+    // ==========================================
+    // LOAD ALL EVIDENCE
+    // ==========================================
+
+    function loadEvidence() {
+
+        fetch(
+            "/api/evidence/complaint/" +
+            encodeURIComponent(complaintId)
+        )
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Unable to load evidence"
+                );
+            }
+
+            return response.json();
+        })
+
+        .then(evidenceList => {
+
+            document.getElementById("evidenceLoading")
+                .style.display = "none";
+
+            const container =
+                document.getElementById("evidenceList");
+
+
+            if (!evidenceList ||
+                evidenceList.length === 0) {
+
+                container.innerHTML = `
+                    <div class="empty">
+                        📁 No evidence uploaded for this complaint yet.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML = "";
+
+
+            evidenceList.forEach(
+                (evidence, index) => {
+
+                    const evidenceNumber =
+                        index + 1;
+
+
+                    const evidenceCard =
+                        document.createElement("div");
+
+                    evidenceCard.className =
+                        "evidence-card";
+
+
+                    evidenceCard.innerHTML = `
+
+                        <div class="evidence-top">
+
+                            <div class="evidence-number">
+                                📎 Evidence ${evidenceNumber}
+                            </div>
+
+                            <span class="status ${
+                                getStatusClass(
+                                    evidence.verificationStatus
+                                )
+                            }">
+                                ${
+                                    evidence.verificationStatus
+                                    || "PENDING"
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <div class="evidence-grid">
+
+                            <div class="evidence-item">
+                                <span>Evidence ID</span>
+                                <span>
+                                    ${
+                                        evidence.evidenceId
+                                        || "-"
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>File Name</span>
+                                <span>
+                                    ${
+                                        evidence.originalFileName
+                                        || "-"
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>File Type</span>
+                                <span>
+                                    ${
+                                        evidence.fileType
+                                        || "-"
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>File Size</span>
+                                <span>
+                                    ${
+                                        formatFileSize(
+                                            evidence.fileSize
+                                        )
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>SHA-256 Hash</span>
+                                <span>
+                                    ${
+                                        evidence.sha256Hash
+                                        || "-"
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>Encryption Status</span>
+                                <span>
+                                    ${
+                                        evidence.encryptionStatus
+                                        || "-"
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>Uploaded Date</span>
+                                <span>
+                                    ${
+                                        formatDate(
+                                            evidence.uploadedAt
+                                        )
+                                    }
+                                </span>
+                            </div>
+
+
+                            <div class="evidence-item">
+                                <span>Verification Status</span>
+                                <span>
+                                    ${
+                                        evidence.verificationStatus
+                                        || "PENDING"
+                                    }
+                                </span>
+                            </div>
+
+                        </div>
+                    `;
+
+
+                    container.appendChild(
+                        evidenceCard
+                    );
+
+                }
+            );
+
+        })
+
+        .catch(error => {
+
+            document.getElementById("evidenceLoading")
+                .style.display = "none";
+
+            document.getElementById("evidenceList")
+                .innerHTML = `
+                    <div class="empty">
+                        Unable to load evidence.
+                    </div>
+                `;
+        });
+    }
+
+
+    // ==========================================
+    // FORMAT FILE SIZE
+    // ==========================================
+
+    function formatFileSize(bytes) {
+
+        if (!bytes || bytes <= 0) {
+            return "-";
+        }
+
+        if (bytes < 1024) {
+            return bytes + " Bytes";
+        }
+
+        if (bytes < 1024 * 1024) {
+            return (
+                (bytes / 1024).toFixed(2)
+                + " KB"
+            );
+        }
+
+        return (
+            (bytes / (1024 * 1024)).toFixed(2)
+            + " MB"
+        );
+    }
+
+
+    // ==========================================
+    // FORMAT DATE
+    // ==========================================
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "-";
+        }
+
+        try {
+
+            const date =
+                new Date(dateValue);
+
+            return date.toLocaleString();
+
+        } catch (error) {
+
+            return dateValue;
+        }
+    }
+
+
+    // ==========================================
+    // STATUS CLASS
+    // ==========================================
+
+    function getStatusClass(status) {
+
+        if (!status) {
+            return "pending";
+        }
+
+        const value =
+            status.toLowerCase();
+
+        if (value === "approved") {
+            return "approved";
+        }
+
+        if (value === "rejected") {
+            return "rejected";
+        }
+
+        return "pending";
+    }
+
+</script>
+
+</body>
+</html>

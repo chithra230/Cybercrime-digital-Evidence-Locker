@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Secure Login - Cybercrime Digital Evidence Locker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: #071a2d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+            background: #0b263b;
+            border: 1px solid #2ed6b0;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 0 30px rgba(46, 214, 176, 0.18);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .shield {
+            width: 62px;
+            height: 62px;
+            margin: auto;
+            background: #2ed6b0;
+            color: #071a2d;
+
+            clip-path: polygon(
+                50% 0%,
+                90% 15%,
+                90% 55%,
+                75% 80%,
+                50% 100%,
+                25% 80%,
+                10% 55%,
+                10% 15%
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2ed6b0;
+            margin-top: 15px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a9c1d1;
+            margin: 8px 0 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d8f5ee;
+            font-size: 14px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px 45px 13px 14px;
+
+            border: 1px solid #31536a;
+            border-radius: 9px;
+
+            background: #071a2d;
+            color: white;
+
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2ed6b0;
+            box-shadow: 0 0 8px rgba(46, 214, 176, 0.2);
+        }
+
+        input::placeholder {
+            color: #718899;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            cursor: pointer;
+            color: #2ed6b0;
+
+            font-size: 18px;
+            user-select: none;
+        }
+
+        /* SAVED USERS */
+
+        .saved-users {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .saved-label {
+            color: #2ed6b0;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .saved-users select {
+            padding: 10px 12px;
+            font-size: 13px;
+            border-color: #2ed6b0;
+        }
+
+        /* CAPTCHA */
+
+        .captcha-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .captcha-code {
+            flex: 1;
+
+            background: #071a2d;
+            border: 1px solid #31536a;
+
+            border-radius: 9px;
+            padding: 12px;
+
+            text-align: center;
+
+            letter-spacing: 4px;
+
+            font-weight: bold;
+            color: #2ed6b0;
+
+            user-select: none;
+        }
+
+        .refresh-btn {
+            width: 45px;
+            height: 43px;
+
+            border: 1px solid #2ed6b0;
+            background: transparent;
+
+            color: #2ed6b0;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 20px;
+        }
+
+        .refresh-btn:hover {
+            background: #2ed6b0;
+            color: #071a2d;
+        }
+
+        /* LOGIN BUTTON */
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #2ed6b0;
+            color: #071a2d;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+        }
+
+        .login-btn:hover {
+            background: #5de4c5;
+        }
+
+        /* FORGOT */
+
+        .forgot {
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        .forgot a {
+            color: #2ed6b0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        /* REGISTER */
+
+        .register-link {
+            text-align: center;
+            margin-top: 22px;
+
+            color: #9eb4c4;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #2ed6b0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* ERROR */
+
+        .message {
+            display: none;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        .error {
+            background: rgba(255, 70, 70, 0.12);
+            border: 1px solid #ff5555;
+            color: #ff7777;
+        }
+
+
+        /* ==================================================
+           TOP RIGHT SAVE LOGIN NOTIFICATION
+           ================================================== */
+
+        .save-notification {
+            position: fixed;
+
+            top: 20px;
+            right: 20px;
+
+            width: 370px;
+
+            background: white;
+            color: #222;
+
+            border-radius: 10px;
+
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.35);
+
+            display: none;
+
+            z-index: 9999;
+
+            overflow: hidden;
+
+            animation: slideFromTop 0.35s ease;
+        }
+
+        @keyframes slideFromTop {
+
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-content {
+            padding: 18px 18px 14px;
+        }
+
+        .notification-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            color: #222;
+
+            margin-bottom: 8px;
+        }
+
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+
+            background: #e8f8f4;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            color: #555;
+
+            margin-left: 42px;
+
+            line-height: 1.4;
+        }
+
+        .notification-buttons {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            padding: 10px 15px 13px;
+
+            border-top: 1px solid #eeeeee;
+        }
+
+        .notification-buttons button {
+            border: none;
+
+            padding: 8px 17px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .save-btn {
+            background: #2ed6b0;
+            color: #071a2d;
+        }
+
+        .save-btn:hover {
+            background: #1fc5a0;
+        }
+
+        .not-now-btn {
+            background: #eeeeee;
+            color: #333;
+        }
+
+        .not-now-btn:hover {
+            background: #dddddd;
+        }
+
+
+        /* LOGIN SUCCESS MESSAGE */
+
+        .success-text {
+            color: #2ed6b0;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            .save-notification {
+                width: calc(100% - 30px);
+
+                right: 15px;
+                top: 15px;
+            }
+
+            .login-container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- ================================
+         LOGIN FORM
+         ================================ -->
+
+    <div class="login-container">
+
+        <div class="logo">
+
+            <div class="shield">
+                ✓
+            </div>
+
+        </div>
+
+
+        <h1>
+            Secure Login
+        </h1>
+
+
+        <p class="subtitle">
+            Cybercrime Digital Evidence Locker
+        </p>
+
+
+        <!-- ERROR MESSAGE -->
+
+        <div
+            id="errorMessage"
+            class="message error">
+        </div>
+
+
+        <!-- REGISTRATION NUMBER -->
+
+        <div class="form-group">
+
+            <label for="registrationNumber">
+                Registration Number
+            </label>
+
+
+            <div class="input-box">
+
+                <input
+                    type="text"
+                    id="registrationNumber"
+                    maxlength="6"
+                    placeholder="Enter 6-digit registration number"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- SAVED USERS -->
+
+            <div
+                class="saved-users"
+                id="savedUsersBox">
+
+                <div class="saved-label">
+                    Saved accounts
+                </div>
+
+
+                <select id="savedUsers">
+
+                    <option value="">
+                        Select saved user
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+            <label for="password">
+                Password
+            </label>
+
+
+            <div class="input-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    autocomplete="new-password"
+                >
+
+
+                <span
+                    class="eye-btn"
+                    id="eyeBtn"
+                    onclick="togglePassword()">
+
+                    👁
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CAPTCHA -->
+
+        <div class="form-group">
+
+            <label>
+                Enter Captcha
+            </label>
+
+
+            <div class="captcha-row">
+
+                <div
+                    class="captcha-code"
+                    id="captchaCode">
+                </div>
+
+
+                <button
+                    type="button"
+                    class="refresh-btn"
+                    onclick="generateCaptcha()">
+
+                    ↻
+
+                </button>
+
+            </div>
+
+
+            <input
+                type="text"
+                id="captchaInput"
+                placeholder="Enter captcha"
+                maxlength="6"
+                autocomplete="off"
+                style="
+                    margin-top:8px;
+                    padding-right:14px;
+                "
+            >
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <button
+            class="login-btn"
+            onclick="loginUser()">
+
+            LOGIN
+
+        </button>
+
+
+        <!-- FORGOT PASSWORD -->
+
+        <div class="forgot">
+
+            <a
+                href="#"
+                onclick="forgotPassword()">
+
+                Forgot Password?
+
+            </a>
+
+        </div>
+
+
+        <!-- REGISTER -->
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="/registration.html">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         TOP RIGHT SAVE LOGIN NOTIFICATION
+         ================================================== -->
+
+    <div
+        class="save-notification"
+        id="saveNotification">
+
+
+        <div class="notification-content">
+
+
+            <div class="notification-title">
+
+                <div class="notification-icon">
+                    🔐
+                </div>
+
+                <span>
+                    Login Successful
+                </span>
+
+            </div>
+
+
+            <div class="notification-text">
+
+                Do you want to save this login information?
+
+            </div>
+
+        </div>
+
+
+        <div class="notification-buttons">
+
+
+            <button
+                class="not-now-btn"
+                onclick="notNow()">
+
+                Not now
+
+            </button>
+
+
+            <button
+                class="save-btn"
+                onclick="saveLogin()">
+
+                Save
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ==================================================
+           VARIABLES
+           ================================================== */
+
+        let captcha = "";
+
+        let currentLoginData = null;
+
+
+
+        /* ==================================================
+           CAPTCHA GENERATE
+           ================================================== */
+
+        function generateCaptcha() {
+
+            const characters =
+                "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+            captcha = "";
+
+
+            for (let i = 0; i < 6; i++) {
+
+                captcha += characters.charAt(
+                    Math.floor(
+                        Math.random() *
+                        characters.length
+                    )
+                );
+
+            }
+
+
+            document.getElementById(
+                "captchaCode"
+            ).textContent = captcha;
+
+
+            document.getElementById(
+                "captchaInput"
+            ).value = "";
+
+        }
+
+
+
+        /* ==================================================
+           PASSWORD SHOW / HIDE
+           ================================================== */
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById(
+                    "password"
+                );
+
+
+            const eye =
+                document.getElementById(
+                    "eyeBtn"
+                );
+
+
+            if (
+                password.type ===
+                "password"
+            ) {
+
+                password.type = "text";
+
+                eye.textContent = "🙈";
+
+            }
+
+            else {
+
+                password.type = "password";
+
+                eye.textContent = "👁";
+
+            }
+
+        }
+
+
+
+        /* ==================================================
+           LOAD SAVED USERS
+           ================================================== */
+
+        function loadSavedUsers() {
+
+            const saved =
+                JSON.parse(
+                    localStorage.getItem(
+                        "cyberSavedLogins"
+                    ) || "[]"
+                );
+
+
+            const box =
+                document.getElementById(
+                    "savedUsersBox"
+                );
+
+
+            const select =
+                document.getElementById(
+                    "savedUsers"
+                );
+
+
+            select.innerHTML =
+                `
+                <option value="">
+                    Select saved user
+                </option>
+                `;
+
+
+            if (saved.length === 0) {
+
+                box.style.display = "none";
+
+                return;
+
+            }
+
+
+            box.style.display = "block";
+
+
+            saved.forEach(
+                (user, index) => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value = index;
+
+
+                    option.textContent =
+                        "Registration No. " +
+                        user.registrationNumber;
+
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           SELECT SAVED USER
+           ================================================== */
+
+        document.getElementById(
+            "savedUsers"
+        ).addEventListener(
+            "change",
+            function () {
+
+
+                const selectedIndex =
+                    this.value;
+
+
+                /*
+                 * If no saved user selected,
+                 * keep fields blank.
+                 */
+
+                if (
+                    selectedIndex === ""
+                ) {
+
+                    document.getElementById(
+                        "registrationNumber"
+                    ).value = "";
+
+
+                    document.getElementById(
+                        "password"
+                    ).value = "";
+
+
+                    return;
+
+                }
+
+
+                const saved =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "cyberSavedLogins"
+                        ) || "[]"
+                    );
+
+
+                const user =
+                    saved[selectedIndex];
+
+
+                if (!user) return;
+
+
+                /*
+                 * Username and password
+                 * fill ONLY after selecting
+                 * saved user.
+                 */
+
+                document.getElementById(
+                    "registrationNumber"
+                ).value =
+                    user.registrationNumber;
+
+
+                document.getElementById(
+                    "password"
+                ).value =
+                    user.password;
+
+            }
+        );
+
+
+
+        /* ==================================================
+           LOGIN
+           ================================================== */
+
+        async function loginUser() {
+
+            hideError();
+
+
+            const registrationNumber =
+                document.getElementById(
+                    "registrationNumber"
+                ).value.trim();
+
+
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
+
+
+            const captchaInput =
+                document.getElementById(
+                    "captchaInput"
+                ).value
+                .trim()
+                .toUpperCase();
+
+
+
+            /* Registration number */
+
+            if (
+                !/^\d{6}$/.test(
+                    registrationNumber
+                )
+            ) {
+
+                showError(
+                    "Please enter a valid 6-digit registration number."
+                );
+
+                return;
+
+            }
+
+
+
+            /* Password */
+
+            if (!password) {
+
+                showError(
+                    "Please enter your password."
+                );
+
+                return;
+
+            }
+
+
+
+            /* CAPTCHA */
+
+            if (
+                captchaInput !== captcha
+            ) {
+
+                showError(
+                    "Invalid captcha. Please try again."
+                );
+
+                generateCaptcha();
+
+                return;
+
+            }
+
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    registrationNumber:
+                                        registrationNumber,
+
+                                    password:
+                                        password
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+
+                /* Login failed */
+
+                if (!response.ok) {
+
+                    showError(
+                        data.message ||
+                        "Invalid registration number or password."
+                    );
+
+                    generateCaptcha();
+
+                    return;
+
+                }
+
+
+
+                /* =========================================
+                   LOGIN SUCCESSFUL
+                   ========================================= */
+
+                sessionStorage.setItem(
+                    "loggedInUser",
+                    JSON.stringify(data)
+                );
+
+
+                currentLoginData = {
+
+                    registrationNumber:
+                        registrationNumber,
+
+                    password:
+                        password
+
+                };
+
+
+                /*
+                 * SHOW TOP-RIGHT NOTIFICATION
+                 */
+
+                document.getElementById(
+                    "saveNotification"
+                ).style.display = "block";
+
+
+            }
+
+            catch (error) {
+
+                showError(
+                    "Server connection failed. Please make sure Spring Boot is running."
+                );
+
+            }
+
+        }
+
+
+
+        /* ==================================================
+           SAVE LOGIN
+           ================================================== */
+
+        function saveLogin() {
+
+            if (!currentLoginData) {
+                return;
+            }
+
+
+            let saved =
+                JSON.parse(
+                    localStorage.getItem(
+                        "cyberSavedLogins"
+                    ) || "[]"
+                );
+
+
+            /*
+             * Remove old account with
+             * same registration number.
+             */
+
+            saved =
+                saved.filter(
+                    user =>
+                        user.registrationNumber !==
+                        currentLoginData.registrationNumber
+                );
+
+
+            /*
+             * Add new saved account.
+             */
+
+            saved.push(
+                currentLoginData
+            );
+
+
+            localStorage.setItem(
+                "cyberSavedLogins",
+                JSON.stringify(saved)
+            );
+
+
+            /*
+             * Close notification
+             */
+
+            document.getElementById(
+                "saveNotification"
+            ).style.display = "none";
+
+
+            /*
+             * Go to dashboard
+             */
+
+            window.location.href =
+                "/dashboard.html";
+
+        }
+
+
+
+        /* ==================================================
+           NOT NOW
+           ================================================== */
+
+        function notNow() {
+
+            /*
+             * Do NOT save login information.
+             */
+
+
+            document.getElementById(
+                "saveNotification"
+            ).style.display = "none";
+
+
+            /*
+             * Go to dashboard
+             */
+
+            window.location.href =
+                "/dashboard.html";
+
+        }
+
+
+
+        /* ==================================================
+           ERROR MESSAGE
+           ================================================== */
+
+        function showError(message) {
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            error.textContent =
+                message;
+
+
+            error.style.display =
+                "block";
+
+        }
+
+
+        function hideError() {
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            error.textContent = "";
+
+            error.style.display =
+                "none";
+
+        }
+
+
+
+        /* ==================================================
+           FORGOT PASSWORD
+           ================================================== */
+
+        function forgotPassword() {
+
+            alert(
+                "Forgot Password feature will be connected to the backend next."
+            );
+
+        }
+
+
+
+        /* ==================================================
+           PAGE LOAD
+           ================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                /*
+                 * VERY IMPORTANT:
+                 *
+                 * Page open aadaga
+                 * username + password BLANK.
+                 *
+                 * Saved user automatic select agalla.
+                 */
+
+                document.getElementById(
+                    "registrationNumber"
+                ).value = "";
+
+
+                document.getElementById(
+                    "password"
+                ).value = "";
+
+
+                document.getElementById(
+                    "captchaInput"
+                ).value = "";
+
+
+                generateCaptcha();
+
+
+                loadSavedUsers();
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Submit Complaint - Cybercrime Digital Evidence Locker</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.header {
+    background: #0b63ce;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 21px;
+    letter-spacing: 0.5px;
+}
+
+.back-btn {
+    background: white;
+    color: #0b63ce;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    width: 92%;
+    max-width: 850px;
+    margin: 30px auto;
+}
+
+.box {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+
+.box h2 {
+    margin-top: 0;
+    color: #0b63ce;
+}
+
+.subtitle {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.group {
+    margin-bottom: 18px;
+}
+
+.group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+    color: #334155;
+}
+
+.group input,
+.group select,
+.group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+    outline: none;
+}
+
+.group input:focus,
+.group select:focus,
+.group textarea:focus {
+    border-color: #0b63ce;
+}
+
+.group textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.required {
+    color: red;
+}
+
+.evidence-box {
+    margin-top: 25px;
+    padding: 20px;
+    border: 2px dashed #94a3b8;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.evidence-box h3 {
+    margin-top: 0;
+    color: #0b63ce;
+}
+
+.evidence-note {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.file-input {
+    background: white;
+    padding: 10px;
+}
+
+.file-name {
+    margin-top: 10px;
+    color: #166534;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.primary-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: #0b63ce;
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    background: #084da3;
+}
+
+.primary-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.message {
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 7px;
+    display: none;
+    font-weight: bold;
+}
+
+.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.complaint-success {
+    margin-top: 25px;
+    padding: 20px;
+    background: #eff6ff;
+    border-left: 5px solid #0b63ce;
+    border-radius: 8px;
+    display: none;
+}
+
+.complaint-success h3 {
+    margin-top: 0;
+    color: #0b63ce;
+}
+
+.complaint-id {
+    font-size: 18px;
+    font-weight: bold;
+    color: #166534;
+}
+
+.loading {
+    text-align: center;
+    color: #64748b;
+    padding: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media(max-width:650px) {
+
+    .header {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 16px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .box {
+        padding: 20px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <h1>
+        CYBERCRIME DIGITAL EVIDENCE LOCKER
+    </h1>
+
+    <button
+        class="back-btn"
+        onclick="goBack()">
+
+        ← Back
+
+    </button>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+<div class="box">
+
+    <h2>
+        📝 Submit New Complaint
+    </h2>
+
+    <div class="subtitle">
+        Enter the cybercrime incident details and upload the related digital evidence.
+    </div>
+
+
+    <!-- ================= COMPLAINT FORM ================= -->
+
+    <form id="complaintForm">
+
+
+        <!-- COMPLAINT TYPE -->
+
+        <div class="group">
+
+            <label>
+                Complaint Type
+                <span class="required">*</span>
+            </label>
+
+            <select id="complaintType" required>
+
+                <option value="">
+                    Select Complaint Type
+                </option>
+
+                <option value="OTP Fraud">
+                    OTP Fraud
+                </option>
+
+                <option value="UPI Fraud">
+                    UPI Fraud
+                </option>
+
+                <option value="Online Banking Fraud">
+                    Online Banking Fraud
+                </option>
+
+                <option value="Credit Card Fraud">
+                    Credit Card Fraud
+                </option>
+
+                <option value="Debit Card Fraud">
+                    Debit Card Fraud
+                </option>
+
+                <option value="Phishing">
+                    Phishing
+                </option>
+
+                <option value="Fake Website">
+                    Fake Website
+                </option>
+
+                <option value="Social Media Fraud">
+                    Social Media Fraud
+                </option>
+
+                <option value="Cyber Harassment">
+                    Cyber Harassment
+                </option>
+
+                <option value="Other Cybercrime">
+                    Other Cybercrime
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- INCIDENT DATE -->
+
+        <div class="group">
+
+            <label>
+                Incident Date
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="date"
+                id="incidentDate"
+                required>
+
+        </div>
+
+
+        <!-- INCIDENT LOCATION -->
+
+        <div class="group">
+
+            <label>
+                Incident Location
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                id="incidentLocation"
+                placeholder="Enter incident location"
+                required>
+
+        </div>
+
+
+        <!-- SUBJECT -->
+
+        <div class="group">
+
+            <label>
+                Complaint Subject
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                id="subject"
+                placeholder="Example: Unauthorized OTP transaction"
+                required>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="group">
+
+            <label>
+                Complaint Description
+                <span class="required">*</span>
+            </label>
+
+            <textarea
+                id="description"
+                placeholder="Explain what happened..."
+                required></textarea>
+
+        </div>
+
+
+        <!-- SUSPECT INFORMATION -->
+
+        <div class="group">
+
+            <label>
+                Suspect Information
+            </label>
+
+            <textarea
+                id="suspectInformation"
+                placeholder="Suspect name, phone number, email, UPI ID, website, URL or other available information"></textarea>
+
+        </div>
+
+
+        <!-- FINANCIAL LOSS -->
+
+        <div class="group">
+
+            <label>
+                Financial Loss
+            </label>
+
+            <input
+                type="text"
+                id="financialLoss"
+                placeholder="Example: ₹5000">
+
+        </div>
+
+
+        <!-- ================= EVIDENCE ================= -->
+
+        <div class="evidence-box">
+
+            <h3>
+                📎 Upload Evidence
+            </h3>
+
+            <div class="evidence-note">
+
+                Select the evidence photo, screenshot, document or other digital evidence related to this complaint.
+
+            </div>
+
+            <input
+                type="file"
+                id="evidenceFile"
+                class="file-input"
+                accept="image/*,.pdf,.doc,.docx">
+
+            <div
+                id="fileName"
+                class="file-name">
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            id="submitButton"
+            class="primary-btn">
+
+            Submit Complaint & Upload Evidence
+
+        </button>
+
+
+    </form>
+
+
+    <!-- ================= SUCCESS ================= -->
+
+    <div
+        id="successBox"
+        class="complaint-success">
+
+        <h3>
+            ✅ Complaint Submitted Successfully
+        </h3>
+
+        <p>
+            Your complaint has been registered successfully.
+        </p>
+
+        <p>
+            Complaint ID:
+        </p>
+
+        <div
+            id="generatedComplaintId"
+            class="complaint-id">
+        </div>
+
+        <p>
+            Your complaint is currently <b>PENDING</b> for admin verification.
+        </p>
+
+        <button
+            class="primary-btn"
+            onclick="goToMyComplaints()">
+
+            View My Complaints
+
+        </button>
+
+    </div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   GET LOGGED-IN USER
+===================================================== */
+
+let loggedInUser = null;
+
+try {
+
+    const storedUser =
+        sessionStorage.getItem("loggedInUser");
+
+    if (!storedUser) {
+
+        alert("Please login first.");
+
+        window.location.href =
+            "/login.html";
+
+    } else {
+
+        loggedInUser =
+            JSON.parse(storedUser);
+
+    }
+
+} catch (error) {
+
+    alert("Login session is invalid.");
+
+    window.location.href =
+        "/login.html";
+}
+
+
+/* =====================================================
+   USER INFORMATION
+===================================================== */
+
+const registrationNumber =
+    loggedInUser
+        ? loggedInUser.registrationNumber
+        : null;
+
+const victimName =
+    loggedInUser
+        ? loggedInUser.name
+        : null;
+
+
+/* =====================================================
+   FILE NAME DISPLAY
+===================================================== */
+
+document
+    .getElementById("evidenceFile")
+    .addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+            const fileName =
+                document.getElementById(
+                    "fileName"
+                );
+
+            if (file) {
+
+                fileName.textContent =
+                    "Selected Evidence: " +
+                    file.name;
+
+            } else {
+
+                fileName.textContent =
+                    "";
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+}
+
+
+/* =====================================================
+   COMPLAINT FORM SUBMIT
+===================================================== */
+
+document
+    .getElementById("complaintForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            /* -----------------------------------------
+               CHECK LOGIN
+            ----------------------------------------- */
+
+            if (
+                !registrationNumber ||
+                !victimName
+            ) {
+
+                showMessage(
+                    "Login session not found. Please login again.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* -----------------------------------------
+               GET VALUES
+            ----------------------------------------- */
+
+            const complaintType =
+                document
+                    .getElementById(
+                        "complaintType"
+                    )
+                    .value
+                    .trim();
+
+
+            const incidentDate =
+                document
+                    .getElementById(
+                        "incidentDate"
+                    )
+                    .value
+                    .trim();
+
+
+            const incidentLocation =
+                document
+                    .getElementById(
+                        "incidentLocation"
+                    )
+                    .value
+                    .trim();
+
+
+            const subject =
+                document
+                    .getElementById(
+                        "subject"
+                    )
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById(
+                        "description"
+                    )
+                    .value
+                    .trim();
+
+
+            const suspectInformation =
+                document
+                    .getElementById(
+                        "suspectInformation"
+                    )
+                    .value
+                    .trim();
+
+
+            const financialLoss =
+                document
+                    .getElementById(
+                        "financialLoss"
+                    )
+                    .value
+                    .trim();
+
+
+            const evidenceFile =
+                document
+                    .getElementById(
+                        "evidenceFile"
+                    )
+                    .files[0];
+
+
+            /* -----------------------------------------
+               EVIDENCE REQUIRED
+            ----------------------------------------- */
+
+            if (!evidenceFile) {
+
+                showMessage(
+                    "Please select the evidence photo/file.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* -----------------------------------------
+               BUTTON
+            ----------------------------------------- */
+
+            const submitButton =
+                document.getElementById(
+                    "submitButton"
+                );
+
+            submitButton.disabled =
+                true;
+
+            submitButton.textContent =
+                "Submitting Complaint...";
+
+
+            try {
+
+
+                /* =====================================
+                   STEP 1
+                   CREATE COMPLAINT
+                ===================================== */
+
+                const complaintData = {
+
+                    victimRegistrationNumber:
+                        registrationNumber,
+
+                    victimName:
+                        victimName,
+
+                    complaintType:
+                        complaintType,
+
+                    incidentDate:
+                        incidentDate,
+
+                    incidentLocation:
+                        incidentLocation,
+
+                    subject:
+                        subject,
+
+                    description:
+                        description,
+
+                    suspectInformation:
+                        suspectInformation,
+
+                    financialLoss:
+                        financialLoss
+
+                };
+
+
+                const complaintResponse =
+                    await fetch(
+                        "/api/complaints",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    complaintData
+                                )
+
+                        }
+                    );
+
+
+                const complaintResult =
+                    await complaintResponse.json();
+
+
+                if (!complaintResponse.ok) {
+
+                    throw new Error(
+                        complaintResult.message ||
+                        "Complaint submission failed."
+                    );
+
+                }
+
+
+                /* =====================================
+                   GET GENERATED COMPLAINT ID
+                ===================================== */
+
+                const complaintId =
+                    complaintResult.complaintId;
+
+
+                if (!complaintId) {
+
+                    throw new Error(
+                        "Complaint ID was not generated."
+                    );
+
+                }
+
+
+                /* =====================================
+                   STEP 2
+                   UPLOAD EVIDENCE
+                ===================================== */
+
+                submitButton.textContent =
+                    "Uploading Evidence...";
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "file",
+                    evidenceFile
+                );
+
+
+                formData.append(
+                    "complaintId",
+                    complaintId
+                );
+
+
+                formData.append(
+                    "victimRegistrationNumber",
+                    registrationNumber
+                );
+
+
+                const evidenceResponse =
+                    await fetch(
+                        "/api/evidence/upload",
+                        {
+
+                            method: "POST",
+
+                            body:
+                                formData
+
+                        }
+                    );
+
+
+                const evidenceResult =
+                    await evidenceResponse.json();
+
+
+                if (!evidenceResponse.ok) {
+
+                    throw new Error(
+                        evidenceResult.message ||
+                        "Complaint was created, but evidence upload failed."
+                    );
+
+                }
+
+
+                /* =====================================
+                   SUCCESS
+                ===================================== */
+
+                document
+                    .getElementById(
+                        "generatedComplaintId"
+                    )
+                    .textContent =
+                    complaintId;
+
+
+                document
+                    .getElementById(
+                        "successBox"
+                    )
+                    .style.display =
+                    "block";
+
+
+                document
+                    .getElementById(
+                        "complaintForm"
+                    )
+                    .style.display =
+                    "none";
+
+
+                showMessage(
+                    "Complaint and evidence uploaded successfully.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+
+                console.error(
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Something went wrong. Please try again.",
+                    "error"
+                );
+
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    "Submit Complaint & Upload Evidence";
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack() {
+
+    window.location.href =
+        "/victim-dashboard.html";
+
+}
+
+
+/* =====================================================
+   MY COMPLAINTS
+===================================================== */
+
+function goToMyComplaints() {
+
+    window.location.href =
+        "/my-complaints.html";
+
+}
+
+</script>
+
+</body>
+</html>

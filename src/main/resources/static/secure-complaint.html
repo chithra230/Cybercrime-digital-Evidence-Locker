@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Secure Complaint</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1e293b;
+    min-height:100vh;
+}
+
+.header{
+    background:#082b63;
+    color:white;
+    padding:18px 35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h1{
+    font-size:21px;
+}
+
+.back-btn{
+    background:white;
+    color:#082b63;
+    border:none;
+    padding:9px 17px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    width:92%;
+    max-width:950px;
+    margin:30px auto;
+}
+
+.box{
+    background:white;
+    padding:28px;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+    margin-bottom:22px;
+}
+
+h2{
+    color:#082b63;
+    margin-bottom:12px;
+}
+
+h3{
+    color:#082b63;
+    margin-bottom:12px;
+}
+
+.info{
+    background:#f8fafc;
+    padding:14px;
+    border-radius:7px;
+    margin-bottom:12px;
+    line-height:1.6;
+}
+
+.label{
+    font-weight:bold;
+    color:#334155;
+}
+
+.group{
+    margin-top:16px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:11px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+    outline:none;
+    font-size:14px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#2563eb;
+}
+
+.primary{
+    margin-top:18px;
+    background:#0b63ce;
+    color:white;
+    border:none;
+    padding:11px 20px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.primary:hover{
+    background:#084da3;
+}
+
+.secondary{
+    margin-top:18px;
+    margin-left:8px;
+    background:#64748b;
+    color:white;
+    border:none;
+    padding:11px 20px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.secure-note{
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    padding:13px;
+    border-radius:6px;
+    color:#1e40af;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:7px;
+    margin-top:15px;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:12px;
+    border-radius:7px;
+    margin-top:15px;
+}
+
+.warning{
+    background:#fef3c7;
+    color:#92400e;
+    padding:12px;
+    border-radius:7px;
+    margin-top:15px;
+}
+
+#otpSection,
+#secureContent{
+    display:none;
+}
+
+.evidence-card{
+    border:1px solid #dbe3ee;
+    border-radius:8px;
+    padding:15px;
+    margin-top:12px;
+    background:#f8fafc;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+.pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.approved{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.rejected{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.decrypt-btn{
+    margin-top:10px;
+    margin-left:8px;
+    background:#7c3aed;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.decrypt-btn:hover{
+    background:#5b21b6;
+}
+
+.upload-btn{
+    margin-top:15px;
+    background:#0b63ce;
+    color:white;
+    border:none;
+    padding:11px 18px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.upload-btn:hover{
+    background:#084da3;
+}
+
+.cipher-preview{
+    margin-top:12px;
+    border:1px solid #b8c0cc;
+    background:#fff;
+    border-radius:5px;
+    overflow:hidden;
+}
+
+.cipher-preview-title{
+    background:#eef2f7;
+    color:#334155;
+    padding:8px 10px;
+    font-size:12px;
+    font-weight:bold;
+    border-bottom:1px solid #cbd5e1;
+}
+
+.cipher-text{
+    height:230px;
+    overflow:auto;
+    padding:10px;
+    white-space:pre-wrap;
+    word-break:break-all;
+    font-family:"Courier New",monospace;
+    font-size:12px;
+    line-height:1.05;
+    color:#20242a;
+    background:#fff;
+}
+
+.cipher-note{
+    margin-top:8px;
+    color:#64748b;
+    font-size:12px;
+}
+
+.rejection{
+    background:#fee2e2;
+    border-left:4px solid #dc2626;
+    color:#991b1b;
+    padding:14px;
+    border-radius:7px;
+    margin-bottom:18px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+@media(max-width:650px){
+
+    .header{
+        padding:15px;
+    }
+
+    .header h1{
+        font-size:16px;
+    }
+
+    .container{
+        width:94%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>
+        CYBERCRIME DIGITAL EVIDENCE LOCKER
+    </h1>
+
+    <button
+        class="back-btn"
+        onclick="goBack()">
+        ← Back
+    </button>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- ================================================= -->
+<!-- PRE OTP SECURE ACCESS -->
+<!-- ================================================= -->
+
+<div
+    class="box"
+    id="accessBox">
+
+    <h2>
+        🔐 Secure Complaint Access
+    </h2>
+
+    <div class="secure-note">
+
+        For security, complete Gmail and OTP
+        verification before viewing complaint
+        details and evidence.
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Complaint ID:
+        </span>
+
+        <span id="complaintIdText">
+            Loading...
+        </span>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- ENCRYPTED COMPLAINT -->
+    <!-- ============================================= -->
+
+    <h3 style="margin-top:25px;">
+        Encrypted Complaint Data
+    </h3>
+
+    <div class="secure-note">
+
+        🔒 All complaint information is encrypted
+        before OTP verification.
+
+        <br><br>
+
+        Original complaint information will be
+        displayed only after successful OTP verification.
+
+    </div>
+
+
+    <div class="cipher-preview">
+
+        <div class="cipher-preview-title">
+
+            🔐 AES-256-GCM Encrypted Complaint Data
+
+        </div>
+
+        <div
+            class="cipher-text"
+            id="previewComplaintCipher">
+
+            Loading encrypted complaint data...
+
+        </div>
+
+    </div>
+
+
+    <div class="cipher-note">
+
+        The original complaint information cannot
+        be read from this encrypted data.
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- ENCRYPTED EVIDENCE -->
+    <!-- ============================================= -->
+
+    <h3 style="margin-top:25px;">
+
+        Encrypted Evidence Preview
+
+    </h3>
+
+
+    <div class="secure-note">
+
+        🔒 Evidence information and original files
+        remain protected until OTP verification.
+
+    </div>
+
+
+    <div id="previewEvidenceList">
+
+        Loading encrypted evidence...
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- GMAIL -->
+    <!-- ============================================= -->
+
+    <div class="group">
+
+        <label>
+            Registered Gmail
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your registered Gmail">
+
+    </div>
+
+
+    <button
+        class="primary"
+        onclick="sendOtp()">
+
+        Get OTP
+
+    </button>
+
+
+    <div
+        id="emailMessage"
+        class="hidden">
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- OTP -->
+    <!-- ============================================= -->
+
+    <div
+        id="otpSection">
+
+        <div class="group">
+
+            <label>
+                Enter OTP
+            </label>
+
+            <input
+                type="text"
+                id="otp"
+                maxlength="6"
+                inputmode="numeric"
+                placeholder="Enter 6-digit OTP">
+
+        </div>
+
+
+        <button
+            class="primary"
+            onclick="verifyOtp()">
+
+            Verify OTP
+
+        </button>
+
+
+        <div
+            id="otpMessage"
+            class="hidden">
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- AFTER OTP -->
+<!-- ================================================= -->
+
+<div
+    class="box"
+    id="secureContent">
+
+    <h2>
+        🔓 Secure Complaint Details
+    </h2>
+
+
+    <div class="secure-note">
+
+        ✅ Secure access verified successfully.
+
+        <br>
+
+        Original complaint information is now available.
+
+    </div>
+
+
+    <div
+        id="rejectionBox"
+        class="hidden">
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- COMPLAINT INFORMATION -->
+    <!-- ============================================= -->
+
+    <h3>
+        Complaint Information
+    </h3>
+
+
+    <div class="info">
+
+        <span class="label">
+            Complaint ID:
+        </span>
+
+        <span id="viewComplaintId"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Complaint Type:
+        </span>
+
+        <span id="viewComplaintType"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Incident Date:
+        </span>
+
+        <span id="viewIncidentDate"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Incident Location:
+        </span>
+
+        <span id="viewIncidentLocation"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Subject:
+        </span>
+
+        <span id="viewSubject"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Description:
+        </span>
+
+        <span id="viewDescription"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Suspect Information:
+        </span>
+
+        <span id="viewSuspectInformation"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Financial Loss:
+        </span>
+
+        <span id="viewFinancialLoss"></span>
+
+    </div>
+
+
+    <div class="info">
+
+        <span class="label">
+            Status:
+        </span>
+
+        <span id="viewStatus"></span>
+
+    </div>
+
+
+
+    <!-- ============================================= -->
+    <!-- EDIT COMPLAINT -->
+    <!-- ============================================= -->
+
+    <h3 style="margin-top:30px;">
+        Edit Complaint
+    </h3>
+
+
+    <div class="secure-note">
+
+        If you edit the complaint, it will again
+        become <b>PENDING</b> and the admin must
+        review it again.
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Complaint Type
+        </label>
+
+        <input
+            type="text"
+            id="editComplaintType">
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Incident Date
+        </label>
+
+        <input
+            type="text"
+            id="editIncidentDate">
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Incident Location
+        </label>
+
+        <input
+            type="text"
+            id="editIncidentLocation">
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Subject
+        </label>
+
+        <input
+            type="text"
+            id="editSubject">
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            id="editDescription">
+        </textarea>
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Suspect Information
+        </label>
+
+        <textarea
+            id="editSuspectInformation">
+        </textarea>
+
+    </div>
+
+
+    <div class="group">
+
+        <label>
+            Financial Loss
+        </label>
+
+        <input
+            type="text"
+            id="editFinancialLoss">
+
+    </div>
+
+
+    <button
+        class="primary"
+        onclick="updateComplaint()">
+
+        Update Complaint
+
+    </button>
+
+
+    <div
+        id="editMessage"
+        class="hidden">
+    </div>
+
+
+
+    <!-- ============================================= -->
+    <!-- EVIDENCE AFTER OTP -->
+    <!-- ============================================= -->
+
+    <h3 style="margin-top:35px;">
+        Evidence
+    </h3>
+
+
+    <div class="secure-note">
+
+        Evidence files are shown only after
+        secure verification.
+
+        <br><br>
+
+        Approved evidence is stored in encrypted form.
+
+        Click <b>Decrypt File</b> to securely decrypt
+        and open the original evidence.
+
+    </div>
+
+
+    <div id="evidenceList">
+
+        Loading evidence...
+
+    </div>
+
+
+    <button
+        class="upload-btn"
+        onclick="uploadMoreEvidence()">
+
+        📎 Upload More Evidence
+
+    </button>
+
+
+    <div
+        id="evidenceMessage"
+        class="hidden">
+    </div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+const API_BASE = "/api";
+
+let complaintId = null;
+let registrationNumber = null;
+let secureToken = null;
+
+
+/* =====================================================
+   GET COMPLAINT ID
+   ===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+complaintId =
+    params.get("complaintId");
+
+
+document
+    .getElementById("complaintIdText")
+    .innerText =
+    complaintId || "Not found";
+
+
+/* =====================================================
+   GET LOGGED USER
+   ===================================================== */
+
+const storedUser =
+    sessionStorage.getItem(
+        "loggedInUser"
+    );
+
+
+if (!storedUser) {
+
+    alert("Please login first.");
+
+    window.location.href =
+        "login.html";
+
+} else {
+
+    try {
+
+        const user =
+            JSON.parse(
+                storedUser
+            );
+
+        registrationNumber =
+            user.registrationNumber;
+
+    } catch (error) {
+
+        alert(
+            "Login session is invalid."
+        );
+
+        window.location.href =
+            "login.html";
+    }
+}
+
+
+
+/* =====================================================
+   PRE OTP - ENCRYPTED COMPLAINT
+   ===================================================== */
+
+async function loadPreviewComplaint(){
+
+    const cipherBox =
+        document.getElementById(
+            "previewComplaintCipher"
+        );
+
+
+    if(
+        !complaintId ||
+        !registrationNumber
+    ){
+
+        cipherBox.innerText =
+            "Encrypted complaint data unavailable.";
+
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/secure-preview/${encodeURIComponent(complaintId)}?registrationNumber=${encodeURIComponent(registrationNumber)}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Unable to load encrypted complaint."
+            );
+        }
+
+
+        const encryptedText =
+            data.cipherText ||
+            data.encryptedData ||
+            data.encryptedComplaint ||
+            "";
+
+
+        if(!encryptedText){
+
+            throw new Error(
+                "Encrypted complaint data is empty."
+            );
+        }
+
+
+        cipherBox.innerText =
+            encryptedText;
+
+
+    }catch(error){
+
+        console.error(error);
+
+        cipherBox.innerText =
+            "Encrypted complaint preview is unavailable.";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   PRE OTP - ENCRYPTED EVIDENCE
+   ===================================================== */
+
+async function loadPreviewEvidence(){
+
+    const list =
+        document.getElementById(
+            "previewEvidenceList"
+        );
+
+
+    if(!complaintId){
+
+        list.innerHTML =
+            '<div class="error">Complaint ID not found.</div>';
+
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/evidence/complaint/${encodeURIComponent(complaintId)}`
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Unable to load evidence."
+            );
+        }
+
+
+        const evidenceList =
+            await response.json();
+
+
+        if(
+            !evidenceList ||
+            evidenceList.length === 0
+        ){
+
+            list.innerHTML =
+                '<div class="info">No evidence uploaded yet.</div>';
+
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        for(
+            const evidence
+            of evidenceList
+        ){
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "evidence-card";
+
+
+            /*
+             * IMPORTANT:
+             * Do NOT display:
+             * filename
+             * evidence ID
+             * file type
+             * verification status
+             *
+             * before OTP.
+             *
+             * Only encrypted data is displayed.
+             */
+
+
+            if(
+                evidence.verificationStatus ===
+                "APPROVED" &&
+                evidence.encryptionStatus ===
+                "ENCRYPTED"
+            ){
+
+                try{
+
+                    const encryptedResponse =
+                        await fetch(
+                            `${API_BASE}/evidence/encrypted-preview/${encodeURIComponent(evidence.evidenceId)}`
+                        );
+
+
+                    if(!encryptedResponse.ok){
+
+                        throw new Error(
+                            "Encrypted evidence preview unavailable."
+                        );
+                    }
+
+
+                    const encryptedData =
+                        await encryptedResponse.json();
+
+
+                    const cipherText =
+                        encryptedData.cipherText ||
+                        "";
+
+
+                    card.innerHTML = `
+
+                        <div class="cipher-preview">
+
+                            <div class="cipher-preview-title">
+
+                                🔐 AES-256-GCM Encrypted Evidence
+
+                            </div>
+
+                            <div class="cipher-text">
+
+                                ${escapeHtml(cipherText)}
+
+                            </div>
+
+                        </div>
+
+                        <div class="cipher-note">
+
+                            🔒 Original evidence file and
+                            evidence information are protected
+                            until OTP verification.
+
+                        </div>
+
+                    `;
+
+
+                }catch(error){
+
+                    card.innerHTML = `
+
+                        <div class="cipher-preview">
+
+                            <div class="cipher-preview-title">
+
+                                🔐 Encrypted Evidence
+
+                            </div>
+
+                            <div class="cipher-text">
+
+                                Evidence is securely encrypted.
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+            }else{
+
+                card.innerHTML = `
+
+                    <div class="cipher-preview">
+
+                        <div class="cipher-preview-title">
+
+                            🔐 Evidence Protected
+
+                        </div>
+
+                        <div class="cipher-text">
+
+                            Evidence is protected and
+                            cannot be viewed before
+                            secure OTP verification.
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            list.appendChild(card);
+
+        }
+
+
+    }catch(error){
+
+        console.error(error);
+
+        list.innerHTML =
+            '<div class="error">Unable to load encrypted evidence preview.</div>';
+
+    }
+
+}
+
+
+/*
+ * Load encrypted information immediately.
+ * No original complaint details are loaded here.
+ */
+
+loadPreviewComplaint();
+loadPreviewEvidence();
+
+
+
+/* =====================================================
+   SEND OTP
+   ===================================================== */
+
+async function sendOtp(){
+
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+    const message =
+        document.getElementById(
+            "emailMessage"
+        );
+
+
+    if(!email){
+
+        showMessage(
+            message,
+            "Please enter your registered Gmail.",
+            false
+        );
+
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/secure/send-otp`,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            complaintId:
+                                complaintId,
+
+                            registrationNumber:
+                                registrationNumber,
+
+                            email:
+                                email
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            showMessage(
+                message,
+                data.message ||
+                "Given email is invalid.",
+                false
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            message,
+            "OTP sent successfully.",
+            true
+        );
+
+
+        document
+            .getElementById(
+                "otpSection"
+            )
+            .style.display =
+            "block";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            message,
+            "Unable to send OTP.",
+            false
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   VERIFY OTP
+   ===================================================== */
+
+async function verifyOtp(){
+
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+    const otp =
+        document
+            .getElementById("otp")
+            .value
+            .trim();
+
+
+    const message =
+        document.getElementById(
+            "otpMessage"
+        );
+
+
+    if(
+        !otp ||
+        otp.length !== 6
+    ){
+
+        showMessage(
+            message,
+            "Please enter the 6-digit OTP.",
+            false
+        );
+
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/secure/verify-otp`,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            complaintId:
+                                complaintId,
+
+                            registrationNumber:
+                                registrationNumber,
+
+                            email:
+                                email,
+
+                            otp:
+                                otp
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            showMessage(
+                message,
+                data.message ||
+                "Invalid OTP.",
+                false
+            );
+
+            return;
+        }
+
+
+        secureToken =
+            data.accessToken;
+
+
+        sessionStorage.setItem(
+            "secureAccessToken_" +
+            complaintId,
+            secureToken
+        );
+
+
+        showMessage(
+            message,
+            "OTP verified successfully.",
+            true
+        );
+
+
+        /*
+         * Hide encrypted preview + OTP section.
+         */
+
+        document
+            .getElementById(
+                "accessBox"
+            )
+            .style.display =
+            "none";
+
+
+        /*
+         * Show original complaint.
+         */
+
+        document
+            .getElementById(
+                "secureContent"
+            )
+            .style.display =
+            "block";
+
+
+        loadSecureComplaint();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            message,
+            "Unable to verify OTP.",
+            false
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD ORIGINAL COMPLAINT AFTER OTP
+   ===================================================== */
+
+async function loadSecureComplaint(){
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/secure/complaint/${encodeURIComponent(complaintId)}`,
+                {
+                    headers:{
+                        "X-Secure-Access":
+                            secureToken
+                    }
+                }
+            );
+
+
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
+
+            secureToken = null;
+
+            sessionStorage.removeItem(
+                "secureAccessToken_" +
+                complaintId
+            );
+
+            location.reload();
+
+            return;
+        }
+
+
+        const complaint =
+            await response.json();
+
+
+        document.getElementById(
+            "viewComplaintId"
+        ).innerText =
+            complaint.complaintId || "";
+
+
+        document.getElementById(
+            "viewComplaintType"
+        ).innerText =
+            complaint.complaintType || "";
+
+
+        document.getElementById(
+            "viewIncidentDate"
+        ).innerText =
+            complaint.incidentDate || "";
+
+
+        document.getElementById(
+            "viewIncidentLocation"
+        ).innerText =
+            complaint.incidentLocation || "";
+
+
+        document.getElementById(
+            "viewSubject"
+        ).innerText =
+            complaint.subject || "";
+
+
+        document.getElementById(
+            "viewDescription"
+        ).innerText =
+            complaint.description || "";
+
+
+        document.getElementById(
+            "viewSuspectInformation"
+        ).innerText =
+            complaint.suspectInformation || "";
+
+
+        document.getElementById(
+            "viewFinancialLoss"
+        ).innerText =
+            complaint.financialLoss || "";
+
+
+        document.getElementById(
+            "viewStatus"
+        ).innerText =
+            complaint.status || "";
+
+
+        /*
+         * Fill edit fields
+         */
+
+        document.getElementById(
+            "editComplaintType"
+        ).value =
+            complaint.complaintType || "";
+
+
+        document.getElementById(
+            "editIncidentDate"
+        ).value =
+            complaint.incidentDate || "";
+
+
+        document.getElementById(
+            "editIncidentLocation"
+        ).value =
+            complaint.incidentLocation || "";
+
+
+        document.getElementById(
+            "editSubject"
+        ).value =
+            complaint.subject || "";
+
+
+        document.getElementById(
+            "editDescription"
+        ).value =
+            complaint.description || "";
+
+
+        document.getElementById(
+            "editSuspectInformation"
+        ).value =
+            complaint.suspectInformation || "";
+
+
+        document.getElementById(
+            "editFinancialLoss"
+        ).value =
+            complaint.financialLoss || "";
+
+
+        /*
+         * Rejection reason
+         */
+
+        const rejectionBox =
+            document.getElementById(
+                "rejectionBox"
+            );
+
+
+        if(
+            complaint.status === "REJECTED" &&
+            complaint.rejectionReason
+        ){
+
+            rejectionBox.className =
+                "rejection";
+
+
+            rejectionBox.innerHTML =
+                "<b>❌ Complaint Rejected</b><br>" +
+                "Reason: " +
+                escapeHtml(
+                    complaint.rejectionReason
+                );
+
+        }else{
+
+            rejectionBox.className =
+                "hidden";
+
+            rejectionBox.innerHTML =
+                "";
+
+        }
+
+
+        loadEvidence();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "evidenceList"
+        ).innerHTML =
+            '<div class="error">Unable to load complaint.</div>';
+
+    }
+
+}
+
+
+
+/* =====================================================
+   UPDATE COMPLAINT
+   ===================================================== */
+
+async function updateComplaint(){
+
+    const message =
+        document.getElementById(
+            "editMessage"
+        );
+
+
+    const body = {
+
+        complaintType:
+            document.getElementById(
+                "editComplaintType"
+            ).value,
+
+        incidentDate:
+            document.getElementById(
+                "editIncidentDate"
+            ).value,
+
+        incidentLocation:
+            document.getElementById(
+                "editIncidentLocation"
+            ).value,
+
+        subject:
+            document.getElementById(
+                "editSubject"
+            ).value,
+
+        description:
+            document.getElementById(
+                "editDescription"
+            ).value,
+
+        suspectInformation:
+            document.getElementById(
+                "editSuspectInformation"
+            ).value,
+
+        financialLoss:
+            document.getElementById(
+                "editFinancialLoss"
+            ).value
+
+    };
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/secure/complaint/${encodeURIComponent(complaintId)}`,
+                {
+                    method:"PUT",
+
+                    headers:{
+
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Secure-Access":
+                            secureToken
+
+                    },
+
+                    body:
+                        JSON.stringify(body)
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            showMessage(
+                message,
+                data.message ||
+                "Unable to update complaint.",
+                false
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            message,
+            "Complaint updated successfully and sent for admin review.",
+            true
+        );
+
+
+        loadSecureComplaint();
+
+
+    }catch(error){
+
+        showMessage(
+            message,
+            "Unable to update complaint.",
+            false
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD ORIGINAL EVIDENCE AFTER OTP
+   ===================================================== */
+
+async function loadEvidence(){
+
+    const list =
+        document.getElementById(
+            "evidenceList"
+        );
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/secure/complaint/${encodeURIComponent(complaintId)}/evidence`,
+                {
+                    headers:{
+                        "X-Secure-Access":
+                            secureToken
+                    }
+                }
+            );
+
+
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
+
+            list.innerHTML =
+                '<div class="error">Secure access expired.</div>';
+
+            return;
+        }
+
+
+        const evidenceList =
+            await response.json();
+
+
+        if(
+            !evidenceList ||
+            evidenceList.length === 0
+        ){
+
+            list.innerHTML =
+                '<div class="info">No evidence uploaded yet.</div>';
+
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        evidenceList.forEach(
+            function(evidence){
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "evidence-card";
+
+
+                let statusClass =
+                    "pending";
+
+
+                if(
+                    evidence.verificationStatus ===
+                    "APPROVED"
+                ){
+
+                    statusClass =
+                        "approved";
+
+                }else if(
+                    evidence.verificationStatus ===
+                    "REJECTED"
+                ){
+
+                    statusClass =
+                        "rejected";
+                }
+
+
+                let buttonHtml = "";
+
+
+                if(
+                    evidence.verificationStatus ===
+                    "APPROVED"
+                ){
+
+                    buttonHtml = `
+
+                        <br>
+
+                        <button
+                            class="decrypt-btn"
+                            onclick="decryptEvidence('${escapeHtml(evidence.evidenceId)}')">
+
+                            🔓 Decrypt File
+
+                        </button>
+
+                    `;
+
+                }
+
+
+                card.innerHTML = `
+
+                    <b>
+                        ${escapeHtml(
+                            evidence.originalFileName || ""
+                        )}
+                    </b>
+
+                    <br>
+
+                    Evidence ID:
+                    ${escapeHtml(
+                        evidence.evidenceId || ""
+                    )}
+
+                    <br>
+
+                    File Type:
+                    ${escapeHtml(
+                        evidence.fileType || ""
+                    )}
+
+                    <br>
+
+                    Verification:
+
+                    <span class="status ${statusClass}">
+
+                        ${escapeHtml(
+                            evidence.verificationStatus || ""
+                        )}
+
+                    </span>
+
+                    ${buttonHtml}
+
+                `;
+
+
+                list.appendChild(card);
+
+            }
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        list.innerHTML =
+            '<div class="error">Unable to load evidence.</div>';
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DECRYPT AND OPEN EVIDENCE
+   ===================================================== */
+
+async function decryptEvidence(
+    evidenceId
+){
+
+    if(!secureToken){
+
+        alert(
+            "Secure access required."
+        );
+
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/evidence/secure-file/${encodeURIComponent(evidenceId)}`,
+                {
+                    headers:{
+                        "X-Secure-Access":
+                            secureToken
+                    }
+                }
+            );
+
+
+        if(!response.ok){
+
+            alert(
+                "Unable to open evidence."
+            );
+
+            return;
+        }
+
+
+        const blob =
+            await response.blob();
+
+
+        const fileUrl =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        window.open(
+            fileUrl,
+            "_blank"
+        );
+
+
+    }catch(error){
+
+        alert(
+            "Unable to decrypt and open evidence."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   UPLOAD MORE EVIDENCE
+   ===================================================== */
+
+function uploadMoreEvidence(){
+
+    if(!secureToken){
+
+        alert(
+            "Please complete secure OTP verification first."
+        );
+
+        return;
+    }
+
+
+    sessionStorage.setItem(
+        "secureAccessToken_" +
+        complaintId,
+        secureToken
+    );
+
+
+    window.location.href =
+        "evidence.html?complaintId=" +
+        encodeURIComponent(
+            complaintId
+        );
+
+}
+
+
+
+/* =====================================================
+   BACK
+   ===================================================== */
+
+function goBack(){
+
+    window.location.href =
+        "my-complaints.html";
+
+}
+
+
+
+/* =====================================================
+   MESSAGE
+   ===================================================== */
+
+function showMessage(
+    element,
+    text,
+    success
+){
+
+    element.innerText =
+        text;
+
+
+    element.className =
+        success
+            ? "success"
+            : "error";
+
+
+    element.style.display =
+        "block";
+
+}
+
+
+
+/* =====================================================
+   HTML SECURITY
+   ===================================================== */
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+</script>
+
+</body>
+</html>

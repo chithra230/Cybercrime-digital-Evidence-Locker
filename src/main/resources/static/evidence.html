@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Evidence</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .header {
+            background: #082b63;
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            border: none;
+            background: white;
+            color: #082b63;
+            padding: 9px 17px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 850px;
+            margin: 35px auto;
+        }
+
+        .box {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #082b63;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+        }
+
+        .group {
+            margin-top: 17px;
+        }
+
+        .primary {
+            margin-top: 18px;
+            border: none;
+            background: #0b63ce;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .primary:hover {
+            background: #084da3;
+        }
+
+        .secondary {
+            margin-top: 18px;
+            margin-left: 8px;
+            border: none;
+            background: #64748b;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .message {
+            display: none;
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        #uploadSection {
+            display: none;
+        }
+
+        .file-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .selected-file {
+            margin-top: 8px;
+            color: #475569;
+            font-size: 13px;
+        }
+
+        .verified-box {
+            margin-top: 20px;
+            padding: 13px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 7px;
+            font-size: 14px;
+            display: none;
+        }
+
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>
+        CYBERCRIME DIGITAL EVIDENCE LOCKER
+    </h1>
+
+    <button
+        class="back-btn"
+        onclick="goBack()">
+
+        ← Back
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>
+            🔐 Evidence Upload
+        </h2>
+
+        <p class="description">
+            Upload additional digital evidence related to your complaint.
+        </p>
+
+
+        <!-- ================================= -->
+        <!-- COMPLAINT ID -->
+        <!-- ================================= -->
+
+        <div id="complaintSection">
+
+            <div class="group">
+
+                <label>
+                    Complaint ID
+                </label>
+
+                <input
+                    type="text"
+                    id="complaintId"
+                    placeholder="Enter Complaint ID"
+                    autocomplete="off">
+
+            </div>
+
+
+            <button
+                class="primary"
+                onclick="checkComplaintId()">
+
+                Check Complaint ID
+
+            </button>
+
+
+            <div
+                id="complaintMessage"
+                class="message">
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- VERIFIED -->
+        <!-- ================================= -->
+
+        <div
+            id="verifiedBox"
+            class="verified-box">
+
+            ✓ Complaint ID verified successfully.
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- UPLOAD SECTION -->
+        <!-- ================================= -->
+
+        <div id="uploadSection">
+
+            <div class="file-box">
+
+                <label>
+                    Select Evidence File
+                </label>
+
+                <input
+                    type="file"
+                    id="evidenceFile"
+                    onchange="showSelectedFile()">
+
+                <div
+                    id="selectedFile"
+                    class="selected-file">
+
+                    No file selected.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary"
+                onclick="uploadEvidence()">
+
+                Upload Evidence
+
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="resetUpload()">
+
+                Cancel
+
+            </button>
+
+
+            <div
+                id="uploadMessage"
+                class="message">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const API_BASE = "/api";
+
+    let selectedComplaintId = null;
+
+
+    // ==========================================
+    // GET LOGGED-IN USER
+    // ==========================================
+
+    function getLoggedInUser() {
+
+        const storedUser =
+            sessionStorage.getItem(
+                "loggedInUser"
+            );
+
+        if (!storedUser) {
+            return null;
+        }
+
+        try {
+
+            return JSON.parse(
+                storedUser
+            );
+
+        } catch (error) {
+
+            return null;
+        }
+    }
+
+
+    // ==========================================
+    // CHECK COMPLAINT ID
+    // ==========================================
+
+    async function checkComplaintId() {
+
+        const complaintId =
+            document
+                .getElementById("complaintId")
+                .value
+                .trim();
+
+        const message =
+            document
+                .getElementById(
+                    "complaintMessage"
+                );
+
+
+        if (!complaintId) {
+
+            showMessage(
+                message,
+                "Please enter Complaint ID.",
+                false
+            );
+
+            return;
+        }
+
+
+        const user =
+            getLoggedInUser();
+
+
+        if (!user) {
+
+            showMessage(
+                message,
+                "Please login first.",
+                false
+            );
+
+            return;
+        }
+
+
+        if (!user.registrationNumber) {
+
+            showMessage(
+                message,
+                "Login information not found. Please login again.",
+                false
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/complaints/${encodeURIComponent(complaintId)}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    message,
+                    data.message ||
+                    "Complaint ID not found.",
+                    false
+                );
+
+                return;
+            }
+
+
+            /*
+             * Check whether this complaint
+             * belongs to the logged-in victim.
+             */
+
+            if (
+                data.victimRegistrationNumber &&
+                String(
+                    data.victimRegistrationNumber
+                ) !== String(
+                    user.registrationNumber
+                )
+            ) {
+
+                showMessage(
+                    message,
+                    "This Complaint ID does not belong to your account.",
+                    false
+                );
+
+                return;
+            }
+
+
+            selectedComplaintId =
+                complaintId;
+
+
+            document
+                .getElementById(
+                    "verifiedBox"
+                )
+                .style.display =
+                "block";
+
+
+            document
+                .getElementById(
+                    "uploadSection"
+                )
+                .style.display =
+                "block";
+
+
+            document
+                .getElementById(
+                    "complaintId"
+                )
+                .disabled =
+                true;
+
+
+            showMessage(
+                message,
+                "Complaint ID verified successfully.",
+                true
+            );
+
+        } catch (error) {
+
+            showMessage(
+                message,
+                "Unable to check Complaint ID. Please make sure the server is running.",
+                false
+            );
+        }
+    }
+
+
+    // ==========================================
+    // SHOW SELECTED FILE
+    // ==========================================
+
+    function showSelectedFile() {
+
+        const fileInput =
+            document
+                .getElementById(
+                    "evidenceFile"
+                );
+
+        const selectedFile =
+            document
+                .getElementById(
+                    "selectedFile"
+                );
+
+
+        if (
+            fileInput.files &&
+            fileInput.files.length > 0
+        ) {
+
+            selectedFile.innerText =
+                "Selected: " +
+                fileInput.files[0].name;
+
+        } else {
+
+            selectedFile.innerText =
+                "No file selected.";
+        }
+    }
+
+
+    // ==========================================
+    // UPLOAD EVIDENCE
+    // ==========================================
+
+    async function uploadEvidence() {
+
+        const fileInput =
+            document
+                .getElementById(
+                    "evidenceFile"
+                );
+
+        const message =
+            document
+                .getElementById(
+                    "uploadMessage"
+                );
+
+
+        if (!selectedComplaintId) {
+
+            showMessage(
+                message,
+                "Please check Complaint ID first.",
+                false
+            );
+
+            return;
+        }
+
+
+        if (
+            !fileInput.files ||
+            fileInput.files.length === 0
+        ) {
+
+            showMessage(
+                message,
+                "Please select an evidence file.",
+                false
+            );
+
+            return;
+        }
+
+
+        const user =
+            getLoggedInUser();
+
+
+        if (!user ||
+            !user.registrationNumber) {
+
+            showMessage(
+                message,
+                "Please login again.",
+                false
+            );
+
+            return;
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            fileInput.files[0]
+        );
+
+
+        formData.append(
+            "complaintId",
+            selectedComplaintId
+        );
+
+
+        formData.append(
+            "victimRegistrationNumber",
+            user.registrationNumber
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/evidence/upload`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    message,
+                    data.message ||
+                    "Evidence upload failed.",
+                    false
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                message,
+                "Evidence uploaded successfully.",
+                true
+            );
+
+
+            fileInput.value = "";
+
+
+            document
+                .getElementById(
+                    "selectedFile"
+                )
+                .innerText =
+                "No file selected.";
+
+
+        } catch (error) {
+
+            showMessage(
+                message,
+                "Unable to upload evidence. Please try again.",
+                false
+            );
+        }
+    }
+
+
+    // ==========================================
+    // CANCEL / RESET
+    // ==========================================
+
+    function resetUpload() {
+
+        selectedComplaintId = null;
+
+
+        document
+            .getElementById(
+                "complaintId"
+            )
+            .disabled =
+            false;
+
+
+        document
+            .getElementById(
+                "complaintId"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "verifiedBox"
+            )
+            .style.display =
+            "none";
+
+
+        document
+            .getElementById(
+                "uploadSection"
+            )
+            .style.display =
+            "none";
+
+
+        document
+            .getElementById(
+                "evidenceFile"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "selectedFile"
+            )
+            .innerText =
+            "No file selected.";
+
+
+        document
+            .getElementById(
+                "complaintMessage"
+            )
+            .style.display =
+            "none";
+
+
+        document
+            .getElementById(
+                "uploadMessage"
+            )
+            .style.display =
+            "none";
+    }
+
+
+    // ==========================================
+    // BACK
+    // ==========================================
+
+    function goBack() {
+
+        window.location.href =
+            "my-complaints.html";
+    }
+
+
+    // ==========================================
+    // MESSAGE
+    // ==========================================
+
+    function showMessage(
+        element,
+        text,
+        success
+    ) {
+
+        element.innerText =
+            text;
+
+        element.style.display =
+            "block";
+
+        element.className =
+            success
+                ? "message success"
+                : "message error";
+    }
+
+</script>
+
+</body>
+</html>

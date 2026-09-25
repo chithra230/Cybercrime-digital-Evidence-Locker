@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login - Cybercrime Digital Evidence Locker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef4ff, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 390px;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .title {
+            text-align: center;
+            color: #1456c7;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            margin-bottom: 18px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1456c7;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 45px;
+        }
+
+        .eye {
+            position: absolute;
+            right: 13px;
+            top: 11px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #1456c7;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d43a0;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #1456c7;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="title">
+        🔐 Admin Login
+    </div>
+
+    <div class="subtitle">
+        Cybercrime Digital Evidence Management System
+    </div>
+
+    <form id="adminLoginForm">
+
+        <label for="username">Username</label>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            autocomplete="username"
+            required
+        >
+
+        <label for="password">Password</label>
+
+        <div class="password-box">
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required
+            >
+
+            <span
+                class="eye"
+                id="togglePassword">
+                👁️
+            </span>
+
+        </div>
+
+        <button
+            type="submit"
+            id="loginButton">
+            Login
+        </button>
+
+        <div
+            class="error"
+            id="errorMessage">
+            Invalid username or password
+        </div>
+
+    </form>
+
+    <div class="back-link">
+        <a onclick="goToHome()">← Back to Home</a>
+    </div>
+
+</div>
+
+
+<script>
+
+    // =========================================================
+    // CHECK ADMIN SESSION
+    // =========================================================
+
+    window.addEventListener("pageshow", function () {
+
+        /*
+         * Do NOT automatically redirect to dashboard here.
+         * This prevents the browser Back button from creating
+         * a stuck login page.
+         */
+
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+
+        document.getElementById("errorMessage").style.display = "none";
+
+    });
+
+
+    // =========================================================
+    // SHOW / HIDE PASSWORD
+    // =========================================================
+
+    document
+        .getElementById("togglePassword")
+        .addEventListener("click", function () {
+
+            const password =
+                document.getElementById("password");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                this.textContent = "🙈";
+
+            } else {
+
+                password.type = "password";
+
+                this.textContent = "👁️";
+            }
+
+        });
+
+
+    // =========================================================
+    // ADMIN LOGIN
+    // =========================================================
+
+    document
+        .getElementById("adminLoginForm")
+        .addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+            const errorMessage =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+            const loginButton =
+                document.getElementById(
+                    "loginButton"
+                );
+
+            errorMessage.style.display = "none";
+
+            if (!username || !password) {
+
+                errorMessage.textContent =
+                    "Please enter username and password";
+
+                errorMessage.style.display = "block";
+
+                return;
+            }
+
+            loginButton.textContent =
+                "Logging in...";
+
+            loginButton.classList.add("loading");
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/admin/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                username: username,
+                                password: password
+                            })
+                        }
+                    );
+
+                let data = {};
+
+                try {
+                    data = await response.json();
+                } catch (e) {
+                    data = {};
+                }
+
+
+                // =================================================
+                // LOGIN SUCCESS
+                // =================================================
+
+                if (response.ok) {
+
+                    /*
+                     * Save admin session.
+                     */
+
+                    sessionStorage.setItem(
+                        "adminLoggedIn",
+                        "true"
+                    );
+
+                    sessionStorage.setItem(
+                        "adminUsername",
+                        data.username ||
+                        username
+                    );
+
+                    sessionStorage.setItem(
+                        "adminName",
+                        data.name ||
+                        username
+                    );
+
+
+                    /*
+                     * Prevent old login page from
+                     * being reused by browser history.
+                     */
+
+                    window.location.replace(
+                        "/admin-dashboard.html"
+                    );
+
+                    return;
+                }
+
+
+                // =================================================
+                // LOGIN FAILED
+                // =================================================
+
+                errorMessage.textContent =
+                    data.message ||
+                    "Invalid username or password";
+
+                errorMessage.style.display =
+                    "block";
+
+                loginButton.textContent =
+                    "Login";
+
+                loginButton.classList.remove(
+                    "loading"
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                errorMessage.textContent =
+                    "Unable to connect to server";
+
+                errorMessage.style.display =
+                    "block";
+
+                loginButton.textContent =
+                    "Login";
+
+                loginButton.classList.remove(
+                    "loading"
+                );
+            }
+
+        });
+
+
+    // =========================================================
+    // BACK TO HOME
+    // =========================================================
+
+    function goToHome() {
+
+        window.location.replace(
+            "/index.html"
+        );
+    }
+
+</script>
+
+</body>
+</html>

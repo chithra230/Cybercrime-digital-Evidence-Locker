@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Complaints - Cybercrime Digital Evidence Locker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #061827;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #092b3d;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #124e68;
+        }
+
+        .logo {
+            color: #19c8d9;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-name {
+            color: #d7f9ff;
+        }
+
+        .logout {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 9px 17px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        h1 {
+            color: #19c8d9;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #9bb5c1;
+            margin-bottom: 30px;
+        }
+
+        .complaint-card {
+            background: #0b2637;
+            border: 1px solid #164a61;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 22px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .complaint-id {
+            color: #19c8d9;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #856404;
+            color: #fff3cd;
+        }
+
+        .approved {
+            background: #146c43;
+            color: #d1e7dd;
+        }
+
+        .rejected {
+            background: #842029;
+            color: #f8d7da;
+        }
+
+        .secure-info {
+            background: #081d2a;
+            border-radius: 9px;
+            padding: 16px;
+            border-left: 4px solid #19c8d9;
+        }
+
+        .secure-title {
+            color: #19c8d9;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .secure-text {
+            color: #b7cbd3;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 17px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .view-btn {
+            background: #19c8d9;
+            color: #04131d;
+        }
+
+        .view-btn:hover {
+            background: #0faabb;
+        }
+
+        .upload-btn {
+            background: #176b82;
+            color: white;
+        }
+
+        .upload-btn:hover {
+            background: #12566a;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: #0b2637;
+            border-radius: 14px;
+            color: #9bb5c1;
+        }
+
+        .loading {
+            text-align: center;
+            color: #9bb5c1;
+            padding: 30px;
+        }
+
+        .error-box {
+            text-align: center;
+            padding: 30px;
+            background: #461e24;
+            color: #ffb3bb;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .complaint-card {
+                padding: 20px;
+            }
+
+            .nav-right {
+                gap: 8px;
+            }
+
+            .user-name {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            CYBERCRIME DIGITAL EVIDENCE LOCKER
+        </div>
+
+        <div class="nav-right">
+
+            <span
+                class="user-name"
+                id="userName">
+                User
+            </span>
+
+            <button
+                class="logout"
+                onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <h1>
+            My Complaints
+        </h1>
+
+        <p class="subtitle">
+            View your submitted complaints securely.
+        </p>
+
+        <div
+            id="complaintsContainer">
+
+            <div class="loading">
+                Loading complaints...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // =========================================
+        // LOGIN USER
+        // =========================================
+
+        let loggedInUser = null;
+
+        try {
+
+            const storedUser =
+                sessionStorage.getItem(
+                    "loggedInUser"
+                );
+
+            if (!storedUser) {
+
+                window.location.href =
+                    "/login.html";
+
+            } else {
+
+                loggedInUser =
+                    JSON.parse(
+                        storedUser
+                    );
+            }
+
+        } catch (error) {
+
+            window.location.href =
+                "/login.html";
+        }
+
+
+        // =========================================
+        // USER INFORMATION
+        // =========================================
+
+        const userNameElement =
+            document.getElementById(
+                "userName"
+            );
+
+        if (loggedInUser) {
+
+            userNameElement.textContent =
+                loggedInUser.name ||
+                "User";
+        }
+
+
+        const registrationNumber =
+            loggedInUser
+                ? loggedInUser.registrationNumber
+                : null;
+
+
+        // =========================================
+        // HTML SECURITY
+        // =========================================
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+            }
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+        }
+
+
+        // =========================================
+        // STATUS CLASS
+        // =========================================
+
+        function getStatusClass(status) {
+
+            const value =
+                String(
+                    status || "PENDING"
+                ).toUpperCase();
+
+            if (
+                value === "APPROVED"
+            ) {
+
+                return "approved";
+            }
+
+            if (
+                value === "REJECTED"
+            ) {
+
+                return "rejected";
+            }
+
+            return "pending";
+        }
+
+
+        // =========================================
+        // LOAD MY COMPLAINTS
+        // =========================================
+
+        async function loadComplaints() {
+
+            const container =
+                document.getElementById(
+                    "complaintsContainer"
+                );
+
+
+            if (!registrationNumber) {
+
+                container.innerHTML = `
+                    <div class="error-box">
+                        Login session not found.
+                        Please login again.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/complaints/user/" +
+                        encodeURIComponent(
+                            registrationNumber
+                        )
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load complaints."
+                    );
+                }
+
+
+                const complaints =
+                    await response.json();
+
+
+                if (
+                    !complaints ||
+                    complaints.length === 0
+                ) {
+
+                    container.innerHTML = `
+                        <div class="empty">
+
+                            <h2>
+                                No Complaints Found
+                            </h2>
+
+                            <p style="margin-top:10px;">
+                                You have not submitted any complaint yet.
+                            </p>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                container.innerHTML =
+                    complaints
+                        .map(
+                            complaint =>
+                                createComplaintCard(
+                                    complaint
+                                )
+                        )
+                        .join("");
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                container.innerHTML = `
+                    <div class="error-box">
+
+                        <h2>
+                            Unable to Load Complaints
+                        </h2>
+
+                        <p style="margin-top:10px;">
+                            ${escapeHtml(
+                                error.message
+                            )}
+                        </p>
+
+                    </div>
+                `;
+            }
+        }
+
+
+        // =========================================
+        // CREATE COMPLAINT CARD
+        // =========================================
+
+        function createComplaintCard(
+            complaint
+        ) {
+
+            const complaintId =
+                complaint.complaintId ||
+                "";
+
+
+            const status =
+                complaint.status ||
+                "PENDING";
+
+
+            return `
+
+                <div class="complaint-card">
+
+                    <div class="top-row">
+
+                        <div class="complaint-id">
+
+                            ${escapeHtml(
+                                complaintId
+                            )}
+
+                        </div>
+
+
+                        <div
+                            class="status ${getStatusClass(status)}">
+
+                            ${escapeHtml(
+                                status
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="secure-info">
+
+                        <div class="secure-title">
+
+                            🔐 Secure Complaint Access
+
+                        </div>
+
+
+                        <div class="secure-text">
+
+                            Complaint details and digital
+                            evidence are protected.
+
+                            Complete registered Gmail
+                            and OTP verification to view
+                            the original complaint information
+                            and evidence.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="view-btn"
+                            onclick="openSecureComplaint(
+                                '${escapeHtml(complaintId)}'
+                            )">
+
+                            🔐 View Complaint Securely
+
+                        </button>
+
+
+                        <button
+                            class="upload-btn"
+                            onclick="uploadMoreEvidence(
+                                '${escapeHtml(complaintId)}'
+                            )">
+
+                            📎 Upload More Evidence
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+        }
+
+
+        // =========================================
+        // OPEN SECURE COMPLAINT
+        // =========================================
+
+        function openSecureComplaint(
+            complaintId
+        ) {
+
+            if (!complaintId) {
+
+                alert(
+                    "Complaint ID not found."
+                );
+
+                return;
+            }
+
+
+            /*
+             * IMPORTANT:
+             *
+             * Complaint details are NOT displayed
+             * directly here.
+             *
+             * User is taken to secure-complaint.html
+             * where:
+             *
+             * 1. Encrypted evidence is shown
+             * 2. Registered Gmail is requested
+             * 3. OTP is sent
+             * 4. OTP is verified
+             * 5. Secure access token is created
+             * 6. Original complaint details are shown
+             * 7. Original evidence can be decrypted/opened
+             */
+
+            window.location.href =
+                "/secure-complaint.html?complaintId=" +
+                encodeURIComponent(
+                    complaintId
+                );
+        }
+
+
+        // =========================================
+        // UPLOAD MORE EVIDENCE
+        // =========================================
+
+        function uploadMoreEvidence(
+            complaintId
+        ) {
+
+            if (!complaintId) {
+
+                alert(
+                    "Complaint ID not found."
+                );
+
+                return;
+            }
+
+
+            window.location.href =
+                "/evidence.html?complaintId=" +
+                encodeURIComponent(
+                    complaintId
+                );
+        }
+
+
+        // =========================================
+        // LOGOUT
+        // =========================================
+
+        function logout() {
+
+            sessionStorage.removeItem(
+                "loggedInUser"
+            );
+
+            sessionStorage.removeItem(
+                "currentComplaintId"
+            );
+
+
+            window.location.href =
+                "/login.html";
+        }
+
+
+        // =========================================
+        // LOAD
+        // =========================================
+
+        loadComplaints();
+
+    </script>
+
+</body>
+
+</html>

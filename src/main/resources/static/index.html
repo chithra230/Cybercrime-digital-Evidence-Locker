@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cybercrime Digital Evidence Locker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #071a2d;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            width: 100%;
+            background: #0b263b;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(46, 214, 176, 0.15);
+        }
+
+        .logo {
+            color: #2ed6b0;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-login {
+            color: #ffffff;
+            border: 1px solid #2ed6b0;
+        }
+
+        .nav-register {
+            background: #2ed6b0;
+            color: #071a2d;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 7%;
+            background:
+                linear-gradient(rgba(7, 26, 45, 0.88), rgba(7, 26, 45, 0.96)),
+                url("/background.png") center/cover no-repeat;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+        }
+
+        .secure-text {
+            color: #2ed6b0;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 22px;
+        }
+
+        .hero-title {
+            font-size: 60px;
+            line-height: 1.05;
+            margin-bottom: 22px;
+            font-weight: 800;
+        }
+
+        .hero-title .blue {
+            color: #2788ff;
+            display: block;
+        }
+
+        .hero-title .white {
+            color: #ffffff;
+            display: block;
+        }
+
+        .hero-description {
+            max-width: 780px;
+            margin: auto;
+            color: #c7d3df;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary,
+        .btn-outline {
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #2ed6b0;
+            color: #071a2d;
+            border: 2px solid #2ed6b0;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #2ed6b0;
+        }
+
+        .btn-primary:hover,
+        .btn-outline:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ================= FEATURES ================= */
+
+        .section {
+            padding: 80px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .section-title span {
+            color: #2ed6b0;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #aebdca;
+            max-width: 750px;
+            margin: 0 auto 45px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .feature-box {
+            background: #0b263b;
+            padding: 30px 22px;
+            border-radius: 12px;
+            border: 1px solid rgba(46, 214, 176, 0.15);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            border-color: #2ed6b0;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature-box h3 {
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .feature-box p {
+            color: #aebdca;
+            font-size: 14px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats-section {
+            background: #0b263b;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .stat-number {
+            font-size: 40px;
+            color: #2ed6b0;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #b8c6d2;
+            font-size: 14px;
+        }
+
+        /* ================= WORKFLOW ================= */
+
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .workflow-box {
+            position: relative;
+            background: #0b263b;
+            padding: 28px 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(46, 214, 176, 0.15);
+        }
+
+        .workflow-number {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2ed6b0;
+            color: #071a2d;
+            border-radius: 50%;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .workflow-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .workflow-box p {
+            color: #aebdca;
+            font-size: 14px;
+        }
+
+        /* ================= SECURITY ================= */
+
+        .security-section {
+            background: #061522;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .security-box {
+            background: #0b263b;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #2ed6b0;
+        }
+
+        .security-box h3 {
+            margin-bottom: 12px;
+        }
+
+        .security-box p {
+            color: #aebdca;
+            font-size: 14px;
+        }
+
+        /* ================= ABOUT ================= */
+
+        .about {
+            max-width: 950px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .about p {
+            color: #b9c7d4;
+            margin-bottom: 15px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #04111d;
+            padding: 45px 7% 25px;
+            text-align: center;
+        }
+
+        .footer-title {
+            color: #2ed6b0;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .footer-subtitle {
+            color: #aebdca;
+            font-size: 13px;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .footer-line {
+            width: 80px;
+            height: 2px;
+            background: #2ed6b0;
+            margin: 0 auto 20px;
+        }
+
+        .copyright {
+            color: #6f8291;
+            font-size: 12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .features,
+            .stats,
+            .workflow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 5%;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 60px 5%;
+            }
+
+            .hero-title {
+                font-size: 38px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .features,
+            .stats,
+            .workflow {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 5%;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            CYBERCRIME
+        </a>
+
+        <div class="nav-buttons">
+
+            <!-- TOP RIGHT: VICTIM LOGIN -->
+            <a href="/login.html" class="nav-btn nav-login">
+                Victim Login
+            </a>
+
+            <!-- TOP RIGHT: VICTIM REGISTRATION -->
+            <a href="/registration.html" class="nav-btn nav-register">
+                Victim Registration
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="secure-text">
+                SECURE • VERIFY • PRESERVE • PROTECT
+            </div>
+
+            <h1 class="hero-title">
+
+                <span class="blue">
+                    CYBERCRIME DIGITAL
+                </span>
+
+                <span class="white">
+                    EVIDENCE LOCKER
+                </span>
+
+            </h1>
+
+            <p class="hero-description">
+                A secure digital evidence management system designed
+                to collect, preserve, verify and track cybercrime
+                digital evidence while maintaining evidence integrity.
+            </p>
+
+            <!-- HERO BUTTONS -->
+            <div class="hero-buttons">
+
+                <!-- ADMIN LOGIN -->
+                <a href="/admin-login.html" class="btn-primary">
+                    Admin Login
+                </a>
+
+                <!-- VICTIM REGISTRATION -->
+                <a href="/registration.html" class="btn-outline">
+                    Victim Registration
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="section">
+
+        <h2 class="section-title">
+            System <span>Features</span>
+        </h2>
+
+        <p class="section-subtitle">
+            A secure and organized platform for managing cybercrime
+            complaints and digital evidence.
+        </p>
+
+        <div class="features">
+
+            <div class="feature-box">
+
+                <div class="feature-icon">🔐</div>
+
+                <h3>Secure Storage</h3>
+
+                <p>
+                    Digital evidence is securely stored and protected
+                    from unauthorized access.
+                </p>
+
+            </div>
+
+
+            <div class="feature-box">
+
+                <div class="feature-icon">🛡️</div>
+
+                <h3>Evidence Integrity</h3>
+
+                <p>
+                    SHA-256 hashing helps verify that digital evidence
+                    has not been altered.
+                </p>
+
+            </div>
+
+
+            <div class="feature-box">
+
+                <div class="feature-icon">📋</div>
+
+                <h3>Complaint Tracking</h3>
+
+                <p>
+                    Victims can submit complaints and monitor their
+                    complaint status.
+                </p>
+
+            </div>
+
+
+            <div class="feature-box">
+
+                <div class="feature-icon">📊</div>
+
+                <h3>Audit Tracking</h3>
+
+                <p>
+                    System activities and evidence actions can be
+                    tracked for accountability.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="section stats-section">
+
+        <div class="stats">
+
+            <div class="stat-box">
+
+                <div class="stat-number">
+                    256
+                </div>
+
+                <div class="stat-label">
+                    Bit Encryption
+                </div>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <div class="stat-number">
+                    SHA-256
+                </div>
+
+                <div class="stat-label">
+                    Evidence Hashing
+                </div>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <div class="stat-number">
+                    24/7
+                </div>
+
+                <div class="stat-label">
+                    Secure Access
+                </div>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <div class="stat-number">
+                    100%
+                </div>
+
+                <div class="stat-label">
+                    Audit Tracking
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= WORKFLOW ================= -->
+
+    <section class="section">
+
+        <h2 class="section-title">
+            How The <span>System Works</span>
+        </h2>
+
+        <p class="section-subtitle">
+            Simple and secure workflow for cybercrime complaint
+            and digital evidence management.
+        </p>
+
+        <div class="workflow">
+
+            <div class="workflow-box">
+
+                <div class="workflow-number">
+                    1
+                </div>
+
+                <h3>Register</h3>
+
+                <p>
+                    Victim creates an account using the registration
+                    form.
+                </p>
+
+            </div>
+
+
+            <div class="workflow-box">
+
+                <div class="workflow-number">
+                    2
+                </div>
+
+                <h3>Complaint</h3>
+
+                <p>
+                    Victim submits cybercrime complaint details
+                    through the system.
+                </p>
+
+            </div>
+
+
+            <div class="workflow-box">
+
+                <div class="workflow-number">
+                    3
+                </div>
+
+                <h3>Evidence</h3>
+
+                <p>
+                    Digital evidence can be uploaded and securely
+                    stored.
+                </p>
+
+            </div>
+
+
+            <div class="workflow-box">
+
+                <div class="workflow-number">
+                    4
+                </div>
+
+                <h3>Verification</h3>
+
+                <p>
+                    Admin verifies complaints and evidence before
+                    report generation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SECURITY ================= -->
+
+    <section class="section security-section">
+
+        <h2 class="section-title">
+            Security & <span>Integrity</span>
+        </h2>
+
+        <p class="section-subtitle">
+            Multiple security mechanisms help protect digital
+            evidence throughout the management process.
+        </p>
+
+        <div class="security-grid">
+
+            <div class="security-box">
+
+                <h3>🔒 Secure Authentication</h3>
+
+                <p>
+                    User authentication provides controlled access
+                    to the system and protects user information.
+                </p>
+
+            </div>
+
+
+            <div class="security-box">
+
+                <h3>🔑 SHA-256 Hashing</h3>
+
+                <p>
+                    A unique SHA-256 hash is generated for uploaded
+                    evidence to support integrity verification.
+                </p>
+
+            </div>
+
+
+            <div class="security-box">
+
+                <h3>🗂️ Audit Trail</h3>
+
+                <p>
+                    Important system activities can be recorded to
+                    maintain accountability and traceability.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="section">
+
+        <div class="about">
+
+            <h2 class="section-title">
+                About The <span>System</span>
+            </h2>
+
+            <p>
+                The Cybercrime Digital Evidence Locker is designed
+                to provide a secure platform for managing digital
+                evidence related to cybercrime complaints.
+            </p>
+
+            <p>
+                The system helps maintain evidence integrity,
+                secure access, complaint tracking and organized
+                evidence management.
+            </p>
+
+            <p>
+                Digital evidence such as screenshots, transaction
+                receipts, URLs, phone numbers and other relevant
+                digital files can be managed through the system.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-title">
+            CYBERCRIME DIGITAL EVIDENCE MANAGEMENT SYSTEM
+        </div>
+
+        <div class="footer-subtitle">
+            EVIDENCE INTEGRITY • SECURE ACCESS • AUDIT TRACKING
+        </div>
+
+        <div class="footer-line"></div>
+
+        <div class="copyright">
+            © 2026 Cybercrime Digital Evidence Management System.
+            All Rights Reserved.
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
